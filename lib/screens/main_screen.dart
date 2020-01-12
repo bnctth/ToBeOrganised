@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../components/category_list.dart';
 import '../constants.dart';
 
 class MainScreen extends StatefulWidget {
@@ -39,58 +40,59 @@ class _MainScreenState extends State<MainScreen> {
             elevation: 0,
           ),
           backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.all(50),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Hello',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Montserrat",
-                    fontSize: 40,
-                  ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(
+                  top: 50,
+                  left: 50,
+                  right: 50,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Having a good day?\n'
-                  'You have 3 tasks to do today.',
-                  style: kWhiteText,
-                ),
-                SizedBox(
-                  height: 60,
-                ),
-                Text(
-                  'TODAY: ${DateFormat('MMMM d, y').format(DateTime.now())}',
-                  style: kWhiteText,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        height: 200,
-                        width: 250,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Hello',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Montserrat",
+                        fontSize: 40,
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Having a good day?\n'
+                      'You have 3 tasks to do today.',
+                      style: kWhiteText,
+                    ),
+                    SizedBox(
+                      height: 60,
+                    ),
+                    Text(
+                      'TODAY: ${DateFormat('MMMM d, y').format(DateTime.now())}',
+                      style: kWhiteText,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: CategoryList(),
+              ),
+              SizedBox(
+                height: 70,
+              )
+            ],
           ),
         ),
       ],
     );
   }
 }
+
