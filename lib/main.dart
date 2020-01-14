@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'models/tasks.dart';
 import 'screens/main_screen.dart';
 
 void main() => runApp(MyApp());
@@ -7,11 +9,14 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        '/': (context) => MainScreen(),
-      },
-      initialRoute: '/',
+    return ChangeNotifierProvider<Tasks>(
+      create: (_) => Tasks(),
+      child: MaterialApp(
+        routes: {
+          '/': (context) => MainScreen(),
+        },
+        initialRoute: '/',
+      ),
     );
   }
 }

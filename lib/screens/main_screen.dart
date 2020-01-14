@@ -2,30 +2,19 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../components/background.dart';
 import '../components/category_list.dart';
 import '../constants.dart';
+import '../models/tasks.dart';
 
-class MainScreen extends StatefulWidget {
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
+class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [Colors.orange, Colors.pink]),
-          ),
-        ),
+        GradientBackground(Provider.of<Tasks>(context).oldColors,Provider.of<Tasks>(context).currentColors),
         Scaffold(
           appBar: AppBar(
             title: Text(

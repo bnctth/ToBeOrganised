@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
   final double width;
+  final bool add;
 
-  CategoryCard(this.width);
+  CategoryCard(this.width, {this.add = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,8 @@ class CategoryCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: Container(),
     );
   }
+
 }
