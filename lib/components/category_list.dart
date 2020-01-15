@@ -54,7 +54,7 @@ class CategoryList extends StatelessWidget {
         ]
           ..addAll(Provider.of<Tasks>(context)
               .categories
-              .map((t) => CategoryCard(width - 100))
+              .map((t) => CategoryCard(width - 100, t))
               .toList())
           ..addAll([
             SizedBox(

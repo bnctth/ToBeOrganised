@@ -5,10 +5,10 @@ import 'task.dart';
 class Category {
   String name;
   List<Task> tasks = [];
-  Icon icon;
+  IconData icon;
   List<Color> colors = [];
 
-  Category({String name, Icon icon, Color color}) {
+  Category({String name, IconData icon, Color color}) {
     this.name = name;
     this.icon = icon;
     final _hslcolor = HSLColor.fromColor(color);

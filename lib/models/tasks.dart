@@ -8,18 +8,18 @@ class Tasks extends ChangeNotifier {
   List<Category> _categories = [
     Category(
       name: 'Home',
-      color: Colors.green,
-      icon: Icon(FontAwesomeIcons.home),
+      color: Colors.teal,
+      icon: FontAwesomeIcons.home,
     ),
     Category(
       name: 'Home',
       color: Colors.red,
-      icon: Icon(FontAwesomeIcons.home),
+      icon: FontAwesomeIcons.home,
     ),
     Category(
       name: 'Home',
       color: Colors.cyan,
-      icon: Icon(FontAwesomeIcons.home),
+      icon: FontAwesomeIcons.home,
     ),
   ];
   int _currentCategory = 0;
@@ -29,7 +29,7 @@ class Tasks extends ChangeNotifier {
 
   UnmodifiableListView get categories => UnmodifiableListView(_categories);
 
-  void createCategory(String name, Color color, Icon icon) {
+  void createCategory(String name, Color color, IconData icon) {
     _categories.add(Category(name: name, color: color, icon: icon));
     notifyListeners();
   }
@@ -40,7 +40,7 @@ class Tasks extends ChangeNotifier {
 
 
   void setCurrentCategory(bool isBigger) {
-//    _oldCategory=_currentCategory+0;
+   _oldCategory=_currentCategory;
     isBigger ? _currentCategory++ : _currentCategory--;
     notifyListeners();
   }

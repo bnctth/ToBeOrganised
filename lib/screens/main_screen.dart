@@ -14,7 +14,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GradientBackground(Provider.of<Tasks>(context).oldColors,Provider.of<Tasks>(context).currentColors),
+        GradientBackground(),
         Scaffold(
           appBar: AppBar(
             title: Text(
@@ -84,4 +84,3 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
-
