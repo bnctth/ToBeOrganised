@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swipedetector/swipedetector.dart';
 
+import '../models/category.dart';
 import '../models/double_storage.dart';
 import '../models/tasks.dart';
+import '../screens/tasks_screen.dart';
 import 'category_card.dart';
 
 class CategoryList extends StatelessWidget {
@@ -42,6 +44,9 @@ class CategoryList extends StatelessWidget {
 
         _controller.animateTo(storage.a,
             duration: Duration(milliseconds: 500), curve: Curves.easeInOutExpo);
+      },
+      onSwipeUp: () {
+        Navigator.pushNamed(context, '/tasks');
       },
       child: ListView(
         physics: NeverScrollableScrollPhysics(),

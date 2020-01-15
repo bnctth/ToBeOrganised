@@ -5,32 +5,37 @@ import 'category.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Tasks extends ChangeNotifier {
-  List<Category> _categories = [
-    Category(
-      name: 'Home',
-      color: Colors.teal,
-      icon: FontAwesomeIcons.home,
-    ),
-    Category(
-      name: 'Home',
-      color: Colors.red,
-      icon: FontAwesomeIcons.home,
-    ),
-    Category(
-      name: 'Home',
-      color: Colors.cyan,
-      icon: FontAwesomeIcons.home,
-    ),
-  ];
+  List<Category> _categories = [];
   int _currentCategory = 0;
-  int _oldCategory=0;
+  int _oldCategory = 0;
 
-  Tasks();
+  Tasks() {
+    _categories = [
+      Category(
+          name: 'Home',
+          color: Colors.teal,
+          icon: FontAwesomeIcons.home,
+          sp: this),
+      Category(
+        name: 'Home',
+        color: Colors.red,
+        icon: FontAwesomeIcons.home,
+        sp: this,
+      ),
+      Category(
+        name: 'Home',
+        color: Colors.cyan,
+        sp: this,
+        icon: FontAwesomeIcons.home,
+      ),
+    ];
+  }
 
   UnmodifiableListView get categories => UnmodifiableListView(_categories);
 
   void createCategory(String name, Color color, IconData icon) {
-    _categories.add(Category(name: name, color: color, icon: icon));
+    _categories
+        .add(Category(name: name, color: color, icon: icon, sp: this));
     notifyListeners();
   }
 
@@ -38,9 +43,10 @@ class Tasks extends ChangeNotifier {
 
   List<Color> get oldColors => _categories[_oldCategory].colors;
 
+  Category get currentCategory => _categories[_currentCategory];
 
   void setCurrentCategory(bool isBigger) {
-   _oldCategory=_currentCategory;
+    _oldCategory = _currentCategory;
     isBigger ? _currentCategory++ : _currentCategory--;
     notifyListeners();
   }
