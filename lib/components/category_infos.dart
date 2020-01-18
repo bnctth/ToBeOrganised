@@ -42,13 +42,13 @@ class CategoryInfos extends StatelessWidget {
                 child: GradientProgressIndicator(
                   gradient: LinearGradient(colors: category.colors),
                   inactiveColor: Colors.grey[200],
-                  value: 0.5,
+                  value: category.taskPercentage,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Text(
-                  '50%',
+                  '${(category.taskPercentage*100).toStringAsFixed(0)}%',
                   style: Theme.of(context).textTheme.title.copyWith(
                     color: Colors.grey,
                     fontSize: 15,

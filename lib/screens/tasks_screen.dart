@@ -6,6 +6,7 @@ import '../components/category_icon.dart';
 import '../components/category_infos.dart';
 import '../components/gradient_fab.dart';
 import '../models/category.dart';
+import '../models/task.dart';
 import '../models/tasks.dart';
 
 class TasksScreen extends StatelessWidget {
@@ -21,52 +22,7 @@ class TasksScreen extends StatelessWidget {
           iconTheme: IconThemeData(
               color: Provider.of<Tasks>(context).currentColors[0]),
         ),
-        body: Padding(
-          padding: EdgeInsets.only(left: 50, right: 50, top: 50),
-          child: ListView(
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  CategoryIcon(category),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  CategoryInfos(category),
-                ],
-              ),
-            ]..addAll(Provider.of<Tasks>(context)
-                .currentCategory
-                .tasks
-                .map((t) => ListTile(
-                      leading: Checkbox(
-                        value: t.checked,
-                        onChanged: (_) {
-                          t.toggle();
-                        },
-                      ),
-                      title: Text(
-                        t.name,
-                        style: TextStyle(
-                          decoration:
-                              t.checked ? TextDecoration.lineThrough : null,
-                          color: t.checked ? Colors.black38 : Colors.black,
-                        ),
-                      ),
-                      trailing: t.checked
-                          ? GestureDetector(
-                              onTap: () {
-                                Provider.of<Tasks>(context, listen: false)
-                                    .currentCategory
-                                    .deleteTask(t);
-                              },
-                              child: Icon(FontAwesomeIcons.trash),
-                            )
-                          : null,
-                    ))
-                .toList()),
-          ),
-        ),
+        body: TaskList(category: category),
         floatingActionButton: Hero(
           tag: 'add',
           child: GradientFloatingActionButton(
@@ -77,5 +33,100 @@ class TasksScreen extends StatelessWidget {
             },
           ),
         ));
+  }
+}
+
+class TaskList extends StatelessWidget {
+  const TaskList({
+    Key key,
+    @required this.category,
+  }) : super(key: key);
+
+  final Category category;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 50.0, left: 50, right: 50),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CategoryIcon(category),
+              SizedBox(
+                height: 25,
+              ),
+              CategoryInfos(category),
+            ],
+          ),
+        ),
+      ]..addAll(Provider.of<Tasks>(context)
+          .currentCategory
+          .tasks
+          .map((t) => TaskListCard(t, () {
+                Provider.of<Tasks>(context, listen: false)
+                    .currentCategory
+                    .readdTask();
+                Scaffold.of(context)
+                    .removeCurrentSnackBar(reason: SnackBarClosedReason.action);
+              }))
+          .toList()),
+    );
+  }
+}
+
+class TaskListCard extends StatelessWidget {
+  final Task t;
+  final Function restore;
+
+  TaskListCard(this.t, this.restore);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, right: 35),
+      child: ListTile(
+        leading: Checkbox(
+          value: t.checked,
+          activeColor: Provider.of<Tasks>(context).currentColors[1],
+          onChanged: (_) {
+            t.toggle();
+          },
+        ),
+        title: Text(
+          t.name,
+          style: TextStyle(
+            decoration: t.checked ? TextDecoration.lineThrough : null,
+            color: t.checked ? Colors.black38 : Colors.black,
+          ),
+        ),
+        trailing: t.checked
+            ? GestureDetector(
+                onTap: () {
+                  var toRestore = t;
+                  Scaffold.of(context).removeCurrentSnackBar(
+                      reason: SnackBarClosedReason.action);
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Removed ${toRestore.name}'),
+                        GestureDetector(
+                          onTap: restore,
+                          child: Text('undo'),
+                        )
+                      ],
+                    ),
+                  ));
+                  Provider.of<Tasks>(context, listen: false)
+                      .currentCategory
+                      .deleteTask(t);
+                },
+                child: Icon(FontAwesomeIcons.trash),
+              )
+            : null,
+      ),
+    );
   }
 }

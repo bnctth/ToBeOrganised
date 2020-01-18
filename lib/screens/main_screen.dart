@@ -36,7 +36,6 @@ class MainScreen extends StatelessWidget {
                 margin: EdgeInsets.only(
                   top: 50,
                   left: 50,
-                  right: 50,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,14 +54,15 @@ class MainScreen extends StatelessWidget {
                     ),
                     Text(
                       'Having a good day?\n'
-                      'You have 3 tasks to do today.',
+                          'You have 3 tasks to do today.',
                       style: kWhiteText,
                     ),
                     SizedBox(
                       height: 60,
                     ),
                     Text(
-                      'TODAY: ${DateFormat('MMMM d, y').format(DateTime.now())}',
+                      'TODAY: ${DateFormat('MMMM d, y').format(
+                          DateTime.now())}',
                       style: kWhiteText,
                     ),
                     SizedBox(

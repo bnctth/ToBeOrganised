@@ -6,7 +6,8 @@ import '../models/task.dart';
 import '../models/tasks.dart';
 
 class AddScreen extends StatelessWidget {
-  String name;
+  String name = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +40,18 @@ class AddScreen extends StatelessWidget {
                 ),
                 TextField(
                   autofocus: true,
-                  decoration: InputDecoration(
-                    border: InputBorder.none
-                  ),
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 30
-                  ),
-                  onChanged: (s){
-                    name=s;
+                  decoration: InputDecoration(border: InputBorder.none),
+                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 30),
+                  onChanged: (s) {
+                    name = s;
+                  },
+                  onSubmitted: (a) {
+                    if (name != "") {
+                      Provider.of<Tasks>(context, listen: false)
+                          .currentCategory
+                          .createTask(name);
+                      Navigator.pop(context);
+                    }
                   },
                 ),
               ],
@@ -56,9 +60,13 @@ class AddScreen extends StatelessWidget {
           Hero(
             tag: 'add',
             child: GestureDetector(
-              onTap: (){
-                Provider.of<Tasks>(context,listen:false).currentCategory.createTask(name);
-                Navigator.pop(context);
+              onTap: () {
+                if (name != "") {
+                  Provider.of<Tasks>(context, listen: false)
+                      .currentCategory
+                      .createTask(name);
+                  Navigator.pop(context);
+                }
               },
               child: Container(
                 height: 50,

@@ -11,15 +11,17 @@ class Category {
   IconData icon;
   List<Color> colors = [];
   Tasks sp;
+  int lastDeletedI;
+  Task lastDeletedT;
 
   Category({String name, IconData icon, Color color, Tasks sp}) {
     this.name = name;
     this.icon = icon;
     final _hslcolor = HSLColor.fromColor(color);
     colors = [
-      HSLColor.fromColor(color).withHue((_hslcolor.hue + 30) % 360).toColor(),
+      _hslcolor.withHue((_hslcolor.hue + 30) % 360).toColor(),
       color,
-      HSLColor.fromColor(color).withHue((_hslcolor.hue - 30) % 360).toColor()
+      _hslcolor.withHue((_hslcolor.hue - 30) % 360).toColor()
     ];
     this.sp = sp;
   }
@@ -33,8 +35,24 @@ class Category {
     sp.notifyListeners();
   }
 
-  void deleteTask(Task task){
+  void deleteTask(Task task) {
+    lastDeletedI = _tasks.indexOf(task);
+    lastDeletedT = task;
     _tasks.remove(task);
     sp.notifyListeners();
+  }
+
+  void readdTask() {
+    _tasks.insert(lastDeletedI, lastDeletedT);
+    sp.notifyListeners();
+  }
+
+  double get taskPercentage {
+    if (_tasks.length == 0) return 0;
+    int checked = 0;
+    for (int i = 0; i < _tasks.length; i++) {
+      _tasks[i].checked ? checked++ : {};
+    }
+    return checked/_tasks.length;
   }
 }
