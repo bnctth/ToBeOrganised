@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/components/add_category_button.dart';
 
 import '../components/background.dart';
 import '../components/category_list.dart';
@@ -30,7 +32,7 @@ class MainScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
@@ -54,15 +56,14 @@ class MainScreen extends StatelessWidget {
                     ),
                     Text(
                       'Having a good day?\n'
-                          'You have 3 tasks to do today.',
+                      'You have 3 tasks to do today.',
                       style: kWhiteText,
                     ),
                     SizedBox(
                       height: 60,
                     ),
                     Text(
-                      'TODAY: ${DateFormat('MMMM d, y').format(
-                          DateTime.now())}',
+                      'TODAY: ${DateFormat('MMMM d, y').format(DateTime.now())}',
                       style: kWhiteText,
                     ),
                     SizedBox(
@@ -72,11 +73,29 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: CategoryList(),
+                flex: 5,
+                child: Provider.of<Tasks>(context).categories.length > 0
+                    ? CategoryList()
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'You have no categories yet.\nCreate one to start!',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 25,
+                                color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            size: 100,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
               ),
-              SizedBox(
-                height: 70,
-              )
+              AddButton()
             ],
           ),
         ),

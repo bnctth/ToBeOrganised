@@ -14,39 +14,48 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      width: width,
-      margin: EdgeInsets.only(right: 30),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                CategoryIcon(category),
-                IconButton(
-                  icon: Icon(FontAwesomeIcons.ellipsisV),
-                  onPressed: () {
+    return Padding(
+      padding: EdgeInsets.only(bottom:20.0),
+      child: Container(
+        height: 200,
+        width: width,
+        margin: EdgeInsets.only(right: 30),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.black38,
+                blurRadius: 5,
+                spreadRadius: 2,
+                offset: Offset(0, 10),
+              )
+            ]),
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CategoryIcon(category),
+                  IconButton(
+                    icon: Icon(FontAwesomeIcons.ellipsisV),
+                    onPressed: () {
 //                    TODO category settings
-                  },
-                  color: Colors.grey,
-                  iconSize: 20,
-                )
-              ],
-            ),
-            CategoryInfos(category)
-          ],
+                    },
+                    color: Colors.grey,
+                    iconSize: 20,
+                  )
+                ],
+              ),
+              CategoryInfos(category)
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

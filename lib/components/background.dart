@@ -103,7 +103,9 @@ class GradientBackground extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: Provider.of<Tasks>(context).currentColors,
+          colors: Provider.of<Tasks>(context).categories.length > 0
+              ? Provider.of<Tasks>(context).currentColors
+              : [Colors.teal, Colors.lightGreenAccent],
         ),
       ),
     );

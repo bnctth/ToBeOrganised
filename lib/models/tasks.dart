@@ -2,7 +2,6 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'category.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Tasks extends ChangeNotifier {
   List<Category> _categories = [];
@@ -10,32 +9,15 @@ class Tasks extends ChangeNotifier {
   int _oldCategory = 0;
 
   Tasks() {
-    _categories = [
-      Category(
-          name: 'Home',
-          color: Colors.teal,
-          icon: FontAwesomeIcons.home,
-          sp: this),
-      Category(
-        name: 'Home',
-        color: Colors.red,
-        icon: FontAwesomeIcons.home,
-        sp: this,
-      ),
-      Category(
-        name: 'Home',
-        color: Colors.cyan,
-        sp: this,
-        icon: FontAwesomeIcons.home,
-      ),
-    ];
+    _categories = [];
   }
 
   UnmodifiableListView get categories => UnmodifiableListView(_categories);
 
   void createCategory(String name, Color color, IconData icon) {
-    _categories
-        .add(Category(name: name, color: color, icon: icon, sp: this));
+    _categories.insert(
+        _currentCategory == 0 ? _currentCategory : _currentCategory + 1,
+        Category(name: name, color: color, icon: icon, sp: this));
     notifyListeners();
   }
 
