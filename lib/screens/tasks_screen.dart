@@ -53,11 +53,11 @@ class TaskList extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CategoryIcon(category),
+              CategoryIcon(),
               SizedBox(
                 height: 25,
               ),
-              CategoryInfos(category),
+              CategoryInfos(),
             ],
           ),
         ),

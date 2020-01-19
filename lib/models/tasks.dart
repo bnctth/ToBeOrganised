@@ -32,4 +32,29 @@ class Tasks extends ChangeNotifier {
     isBigger ? _currentCategory++ : _currentCategory--;
     notifyListeners();
   }
+
+  void renameCurrentCategory(String s) {
+    _categories[_currentCategory].name = s;
+    notifyListeners();
+  }
+
+  void newColorCurrentCategory(Color c) {
+    final _hslcolor = HSLColor.fromColor(c);
+    _categories[_currentCategory].colors = [
+      _hslcolor.withHue((_hslcolor.hue + 30) % 360).toColor(),
+      c,
+      _hslcolor.withHue((_hslcolor.hue - 30) % 360).toColor()
+    ];
+    notifyListeners();
+  }
+
+  void newIconCurrentCategory(String s) {
+    _categories[_currentCategory].name = s;
+    notifyListeners();
+  }
+
+  void deleteCurrentCategory(){
+    _categories.removeAt(_currentCategory);
+    notifyListeners();
+  }
 }

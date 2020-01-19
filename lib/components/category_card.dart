@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_colorpicker/material_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/models/tasks.dart';
 
-import '../models/category.dart';
 import 'category_icon.dart';
 import 'category_infos.dart';
 
+enum MenuButton { name, color, delete }
+
 class CategoryCard extends StatelessWidget {
   final double width;
-  final Category category;
 
-  CategoryCard(this.width, this.category);
+//  final Category category;
+  Color newColor;
+  String newName = '';
+
+  CategoryCard(
+    this.width,
+    /*this.category*/
+  );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom:20.0),
+      padding: EdgeInsets.only(bottom: 20.0),
       child: Container(
         height: 200,
         width: width,
@@ -40,22 +49,141 @@ class CategoryCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  CategoryIcon(category),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.ellipsisV),
-                    onPressed: () {
-//                    TODO category settings
+                  CategoryIcon(),
+                  PopupMenuButton(
+                    tooltip: 'Category settings',
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Text('Change name'),
+                        value: MenuButton.name,
+                      ),
+                      PopupMenuItem(
+                        child: Text('Change color'),
+                        value: MenuButton.color,
+                      ),
+                      PopupMenuItem(
+                        child: Text('Delete'),
+                        value: MenuButton.delete,
+                      ),
+                    ],
+                    onSelected: (mb) {
+                      switch (mb) {
+                        case MenuButton.name:
+                          menuDialog(
+                            context: context,
+                            title: 'Rename',
+                            body: TextField(
+                              autofocus: true,
+                              decoration: InputDecoration(
+                                hintText: 'Enter the new name',
+                              ),
+                              onChanged: (s) {
+                                newName = s;
+                              },
+                            ),
+                            onSet: () {
+                              Provider.of<Tasks>(context, listen: false)
+                                  .renameCurrentCategory(newName);
+                              Navigator.pop(context);
+                            },
+                          );
+                          break;
+                        case MenuButton.color:
+                          menuDialog(
+                            context: context,
+                            title: 'New color',
+                            body: MaterialPicker(
+                              onColorChanged: (c) {
+                                newColor = c;
+                              },
+                            ),
+                            onSet: () {
+                              Provider.of<Tasks>(context, listen: false)
+                                  .newColorCurrentCategory(newColor);
+                              Navigator.pop(context);
+                            },
+                          );
+                          break;
+                        case MenuButton.delete:
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(
+                                        'Are you sure you want to delete this category?'),
+                                    actions: <Widget>[
+                                      OutlineButton(
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            color: Provider.of<Tasks>(context)
+                                                .currentColors[1],
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      RaisedButton(
+                                        color: Provider.of<Tasks>(context)
+                                            .currentColors[1],
+                                        child: Text(
+                                          'Delete',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Provider.of<Tasks>(context,listen: false)
+                                              .deleteCurrentCategory();
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  ));
+                      }
                     },
-                    color: Colors.grey,
-                    iconSize: 20,
-                  )
+                  ),
                 ],
               ),
-              CategoryInfos(category)
+              CategoryInfos()
             ],
           ),
         ),
       ),
     );
   }
+}
+
+void menuDialog(
+    {BuildContext context, String title, Widget body, Function onSet}) {
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text(title),
+            content: body,
+            actions: <Widget>[
+              OutlineButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Provider.of<Tasks>(context).currentColors[1],
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              RaisedButton(
+                color: Provider.of<Tasks>(context).currentColors[1],
+                child: Text(
+                  'Set',
+                  style:
+                      TextStyle(fontFamily: 'Montserrat', color: Colors.white),
+                ),
+                onPressed: onSet,
+              )
+            ],
+          ));
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/models/tasks.dart';
 
-import '../models/category.dart';
 
 class CategoryIcon extends StatelessWidget {
-  final Category category;
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: '${category.hashCode}/icon',
+      tag: '${Provider.of<Tasks>(context).currentCategory.hashCode}/icon',
       child: Material(
         elevation: 2,
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -16,13 +16,12 @@ class CategoryIcon extends StatelessWidget {
           backgroundColor: Colors.white,
           radius: 25,
           child: Icon(
-            category.icon,
-            color: category.colors[1],
+            Provider.of<Tasks>(context).currentCategory.icon,
+            color: Provider.of<Tasks>(context).currentCategory.colors[1],
           ),
         ),
       ),
     );
   }
 
-  CategoryIcon(this.category);
 }
