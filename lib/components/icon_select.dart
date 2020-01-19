@@ -2,79 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/models/icons.dart';
 import 'package:todo/models/new_category_provider.dart';
-import 'package:todo/models/storages.dart';
 import 'package:todo/models/tasks.dart';
 
-ExpansionPanel iconSelect(BuildContext context) => ExpansionPanel(
-      isExpanded: Provider.of<NewCategoryP>(context).newCategoryProgress ==
-          NewCategoryProgress.icon,
-      headerBuilder: (context, b) => Center(
-        child: Text(
-          'Choose an icon',
-          style: TextStyle(fontFamily: 'Montserrat'),
-        ),
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: TextField(
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color:
-                          Provider.of<NewCategoryP>(context).newCategoryColor),
-                ),
-                hintText: 'Search...',
+class IconSelect extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: TextField(
+            decoration: InputDecoration(
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Provider.of<NewCategoryP>(context).newCategoryColor),
               ),
-              onChanged: (s) {
-                Provider.of<NewCategoryP>(context, listen: false).iconSearch =
-                    s;
+              hintText: 'Search...',
+            ),
+            onChanged: (s) {
+              Provider.of<NewCategoryP>(context, listen: false).iconSearch = s;
+            },
+          ),
+        ),
+        SearchResults(Provider.of<NewCategoryP>(context).iconSearch),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            OutlineButton(
+              child: Text('Previous',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Provider.of<NewCategoryP>(context).newCategoryColor,
+                  )),
+              color: Provider.of<NewCategoryP>(context).newCategoryColor,
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                Provider.of<NewCategoryP>(context, listen: false)
+                    .setNewCategoryProgress(NewCategoryProgress.color);
               },
             ),
-          ),
-          SearchResults(Provider.of<NewCategoryP>(context).iconSearch),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              OutlineButton(
-                child: Text('Previous',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color:
-                          Provider.of<NewCategoryP>(context).newCategoryColor,
-                    )),
-                color: Provider.of<NewCategoryP>(context).newCategoryColor,
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
+            RaisedButton(
+              child: Text('Finish',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Colors.white,
+                  )),
+              color: Provider.of<NewCategoryP>(context).newCategoryColor,
+              onPressed: () {
+                Provider.of<Tasks>(context, listen: false).createCategory(
                   Provider.of<NewCategoryP>(context, listen: false)
-                      .setNewCategoryProgress(NewCategoryProgress.color);
-                },
-              ),
-              RaisedButton(
-                child: Text('Finish',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                    )),
-                color: Provider.of<NewCategoryP>(context).newCategoryColor,
-                onPressed: () {
-                  Provider.of<Tasks>(context, listen: false).createCategory(
-                    Provider.of<NewCategoryP>(context, listen: false)
-                        .newCategoryName,
-                    Provider.of<NewCategoryP>(context, listen: false)
-                        .newCategoryColor,
-                    Provider.of<NewCategoryP>(context, listen: false)
-                        .newCategoryIcon,
-                  );
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          )
-        ],
-      ),
+                      .newCategoryName,
+                  Provider.of<NewCategoryP>(context, listen: false)
+                      .newCategoryColor,
+                  Provider.of<NewCategoryP>(context, listen: false)
+                      .newCategoryIcon,
+                );
+                Navigator.pop(context);
+              },
+            )
+          ],
+        )
+      ],
     );
+  }
+}
 
 class SearchResults extends StatelessWidget {
   final String keyword;

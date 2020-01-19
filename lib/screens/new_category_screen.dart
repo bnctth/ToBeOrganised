@@ -54,9 +54,42 @@ class NewCategory extends StatelessWidget {
               children: [
                 ExpansionPanelList(
                   children: <ExpansionPanel>[
-                    nameSelect(context),
-                    colorSelect(context),
-                    iconSelect(context)
+                    ExpansionPanel(
+                      isExpanded: Provider.of<NewCategoryP>(context)
+                              .newCategoryProgress ==
+                          NewCategoryProgress.name,
+                      headerBuilder: (context, b) => Center(
+                        child: Text(
+                          'Choose a name',
+                          style: TextStyle(fontFamily: 'Montserrat'),
+                        ),
+                      ),
+                      body: NameSelect(),
+                    ),
+                    ExpansionPanel(
+                      isExpanded: Provider.of<NewCategoryP>(context)
+                              .newCategoryProgress ==
+                          NewCategoryProgress.color,
+                      headerBuilder: (context, b) => Center(
+                        child: Text(
+                          'Choose a color',
+                          style: TextStyle(fontFamily: 'Montserrat'),
+                        ),
+                      ),
+                      body: ColorSelect(),
+                    ),
+                    ExpansionPanel(
+                      isExpanded: Provider.of<NewCategoryP>(context)
+                              .newCategoryProgress ==
+                          NewCategoryProgress.icon,
+                      headerBuilder: (context, b) => Center(
+                        child: Text(
+                          'Choose an icon',
+                          style: TextStyle(fontFamily: 'Montserrat'),
+                        ),
+                      ),
+                      body: IconSelect(),
+                    )
                   ],
                 ),
               ],
