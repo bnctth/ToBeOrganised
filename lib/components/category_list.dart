@@ -15,6 +15,10 @@ class CategoryList extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return SwipeDetector(
+      swipeConfiguration: SwipeConfiguration(
+        verticalSwipeMaxWidthThreshold: 500,
+        verticalSwipeMinVelocity: 200,
+      ),
       onSwipeLeft: () {
         if (storage.a !=
             (Provider.of<Tasks>(context, listen: false).categories.length - 1) *
@@ -57,7 +61,7 @@ class CategoryList extends StatelessWidget {
         ]
           ..addAll(Provider.of<Tasks>(context)
               .categories
-              .map((t) => CategoryCard(width - 100))
+              .map((t) => CategoryCard(width - 100, t))
               .toList())
           ..addAll([
             SizedBox(

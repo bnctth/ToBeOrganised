@@ -56,7 +56,7 @@ class MainScreen extends StatelessWidget {
                     ),
                     Text(
                       'Having a good day?\n'
-                      'You have 3 tasks to do today.',
+                      'You have ${Provider.of<Tasks>(context).taskCount} tasks to do today.',
                       style: kWhiteText,
                     ),
                     SizedBox(

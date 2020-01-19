@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo/models/tasks.dart';
+import 'package:todo/models/category.dart';
 
 import 'gradient_progress_indicator.dart';
 
 class CategoryInfos extends StatelessWidget {
+  final Category category;
 
+
+  CategoryInfos(this.category);
 
   @override
   Widget build(BuildContext context) {
+
     return Hero(
-      tag: '${Provider.of<Tasks>(context).currentCategory.hashCode}/infos',
+      tag: '${category.hashCode}/infos',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '${Provider.of<Tasks>(context).currentCategory.taskCount} Tasks',
+            '${category.taskCount} Tasks',
             style: Theme.of(context).textTheme.title.copyWith(
                   color: Colors.grey,
                   fontFamily: 'Montserrat',
@@ -26,7 +29,7 @@ class CategoryInfos extends StatelessWidget {
             height: 10,
           ),
           Text(
-            Provider.of<Tasks>(context).currentCategory.name,
+            category.name,
             style: Theme.of(context).textTheme.title.copyWith(
                   fontFamily: 'Montserrat',
                   fontSize: 30,
@@ -39,19 +42,15 @@ class CategoryInfos extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: GradientProgressIndicator(
-                  gradient: LinearGradient(
-                      colors:
-                          Provider.of<Tasks>(context).currentCategory.colors),
+                  gradient: LinearGradient(colors: category.colors),
                   inactiveColor: Colors.grey[200],
-                  value: Provider.of<Tasks>(context)
-                      .currentCategory
-                      .taskPercentage,
+                  value: category.taskPercentage,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Text(
-                  '${(Provider.of<Tasks>(context).currentCategory.taskPercentage * 100).toStringAsFixed(0)}%',
+                  '${(category.taskPercentage * 100).toStringAsFixed(0)}%',
                   style: Theme.of(context).textTheme.title.copyWith(
                         color: Colors.grey,
                         fontSize: 15,

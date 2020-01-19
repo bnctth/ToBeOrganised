@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_colorpicker/material_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/models/category.dart';
 import 'package:todo/models/tasks.dart';
 
 import 'category_icon.dart';
@@ -11,6 +12,7 @@ enum MenuButton { name, color, delete }
 
 class CategoryCard extends StatelessWidget {
   final double width;
+  final Category category;
 
 //  final Category category;
   Color newColor;
@@ -18,7 +20,7 @@ class CategoryCard extends StatelessWidget {
 
   CategoryCard(
     this.width,
-    /*this.category*/
+    this.category
   );
 
   @override
@@ -49,7 +51,7 @@ class CategoryCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  CategoryIcon(),
+                  CategoryIcon(category),
                   PopupMenuButton(
                     tooltip: 'Category settings',
                     itemBuilder: (context) => [
@@ -136,7 +138,7 @@ class CategoryCard extends StatelessWidget {
                                         onPressed: () {
                                           Provider.of<Tasks>(context,listen: false)
                                               .deleteCurrentCategory();
-                                          Navigator.pop(context);
+                                          Navigator.pushReplacementNamed(context,'/');
                                         },
                                       )
                                     ],
@@ -146,7 +148,7 @@ class CategoryCard extends StatelessWidget {
                   ),
                 ],
               ),
-              CategoryInfos()
+              CategoryInfos(category),
             ],
           ),
         ),

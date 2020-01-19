@@ -7,6 +7,7 @@ class Tasks extends ChangeNotifier {
   List<Category> _categories = [];
   int _currentCategory = 0;
   int _oldCategory = 0;
+  int taskCount=0;
 
   Tasks() {
     _categories = [];
@@ -53,8 +54,9 @@ class Tasks extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteCurrentCategory(){
+  void deleteCurrentCategory() {
     _categories.removeAt(_currentCategory);
     notifyListeners();
   }
+
 }

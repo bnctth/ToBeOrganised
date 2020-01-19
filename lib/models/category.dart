@@ -32,6 +32,7 @@ class Category {
 
   void createTask(String name) {
     _tasks.add(Task(name, sp));
+    sp.taskCount++;
     sp.notifyListeners();
   }
 
@@ -39,11 +40,13 @@ class Category {
     lastDeletedI = _tasks.indexOf(task);
     lastDeletedT = task;
     _tasks.remove(task);
+    sp.taskCount--;
     sp.notifyListeners();
   }
 
   void readdTask() {
     _tasks.insert(lastDeletedI, lastDeletedT);
+    sp.taskCount++;
     sp.notifyListeners();
   }
 
@@ -53,6 +56,6 @@ class Category {
     for (int i = 0; i < _tasks.length; i++) {
       _tasks[i].checked ? checked++ : {};
     }
-    return checked/_tasks.length;
+    return checked / _tasks.length;
   }
 }

@@ -3,20 +3,20 @@ import 'package:flutter_colorpicker/material_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/models/new_category_provider.dart';
 
-
-
 class ColorSelect extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        MaterialPicker(
-          pickerColor: Colors.teal,
-          onColorChanged: (c) {
-            Provider.of<NewCategoryP>(context, listen: false).setNewCategoryColor(c);
-          },
+        Container(
+          height: 300,
+          child: MaterialPicker(
+            pickerColor: Colors.teal,
+            onColorChanged: (c) {
+              Provider.of<NewCategoryP>(context, listen: false)
+                  .setNewCategoryColor(c);
+            },
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
