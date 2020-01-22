@@ -13,6 +13,7 @@ class Category {
   Tasks sp;
   int lastDeletedI;
   Task lastDeletedT;
+  int id;
 
   Category({String name, IconData icon, Color color, Tasks sp}) {
     this.name = name;

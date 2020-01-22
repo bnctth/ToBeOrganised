@@ -1,14 +1,15 @@
 import 'tasks.dart';
 
-class Task{
+class Task {
   final String name;
-  bool checked=false;
+  bool checked = false;
   Tasks sp;
+  int id;
 
-  Task(this.name,this.sp);
+  Task(this.name, this.sp);
 
-  void toggle(){
-    checked=!checked;
+  void toggle() {
+    checked = !checked;
     sp.notifyListeners();
   }
 }

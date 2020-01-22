@@ -1,24 +1,27 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:todo/models/db_manager.dart';
 import 'category.dart';
 
 class Tasks extends ChangeNotifier {
   List<Category> _categories = [];
   int _currentCategory = 0;
   int _oldCategory = 0;
-  int taskCount=0;
+  int taskCount = 0;
 
-  Tasks() {
-    _categories = [];
-  }
+  factory Tasks() => instance;
+
+  Tasks._pc();
+
+  static final instance = Tasks._pc();
 
   UnmodifiableListView get categories => UnmodifiableListView(_categories);
 
-  void createCategory(String name, Color color, IconData icon) {
-    _categories.insert(
-        _currentCategory == 0 ? _currentCategory : _currentCategory + 1,
-        Category(name: name, color: color, icon: icon, sp: this));
+  void createCategory(String name, Color color, IconData icon) async {
+    Category c = Category(name: name, color: color, icon: icon, sp: this);
+    c.id = await DBManager.instance.createCategory(c);
+    _categories.add(c);
     notifyListeners();
   }
 
@@ -58,5 +61,4 @@ class Tasks extends ChangeNotifier {
     _categories.removeAt(_currentCategory);
     notifyListeners();
   }
-
 }
