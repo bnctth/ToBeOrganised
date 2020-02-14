@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/components/add_category_button.dart';
 
@@ -62,13 +61,13 @@ class MainScreen extends StatelessWidget {
                     SizedBox(
                       height: 60,
                     ),
-                    Text(
-                      'TODAY: ${DateFormat('MMMM d, y').format(DateTime.now())}',
-                      style: kWhiteText,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
+//                    Text(
+//                      'TODAY: ${DateFormat('MMMM d, y').format(DateTime.now())}',
+//                      style: kWhiteText,
+//                    ),
+//                    SizedBox(
+//                      height: 10,
+//                    ),
                   ],
                 ),
               ),

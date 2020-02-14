@@ -13,7 +13,6 @@ class Category {
   Tasks sp;
   int lastDeletedI;
   Task lastDeletedT;
-  int id;
 
   Category({String name, IconData icon, Color color, Tasks sp}) {
     this.name = name;
@@ -24,6 +23,19 @@ class Category {
       color,
       _hslcolor.withHue((_hslcolor.hue - 30) % 360).toColor()
     ];
+    this.sp = sp;
+  }
+
+  Category.load(
+      {String name,
+      IconData icon,
+      List<Color> colors,
+      List<Task> tasks,
+      Tasks sp}) {
+    this.name = name;
+    this.icon = icon;
+    this.colors = colors;
+    this._tasks = tasks;
     this.sp = sp;
   }
 

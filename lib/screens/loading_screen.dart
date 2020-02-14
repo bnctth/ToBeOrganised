@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:todo/models/db_manager.dart';
+import 'package:todo/models/save_load.dart';
+
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -11,25 +12,27 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    load();
+    loadData();
   }
 
-  void load() async{
-    await DBManager.instance.load();
-    Navigator.pushNamed(context, '/');
+  void loadData() async {
+    await SaveLoad.instance.load();
+    Navigator.pushNamedAndRemoveUntil(context, '/',(_)=>false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+
+        height: double.infinity,
+        width: double.infinity,
         color: Colors.teal,
-        child: Center(
-          child: SpinKitCubeGrid(
-            color: Colors.white,
-            size: 100,
-          ),
+        child: SpinKitFoldingCube(
+          color: Colors.white,
+          size: 200,
         ),
       ),
     );

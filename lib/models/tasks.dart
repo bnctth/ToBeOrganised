@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:todo/models/db_manager.dart';
+import 'package:todo/models/save_load.dart';
 import 'category.dart';
 
 class Tasks extends ChangeNotifier {
@@ -10,17 +10,21 @@ class Tasks extends ChangeNotifier {
   int _oldCategory = 0;
   int taskCount = 0;
 
+  static Tasks instance = Tasks._private();
+
   factory Tasks() => instance;
 
-  Tasks._pc();
+  Tasks._private();
 
-  static final instance = Tasks._pc();
+  void loadData({int taskCount, List<Category> categories}) {
+    this.taskCount = taskCount;
+    _categories = categories;
+  }
 
   UnmodifiableListView get categories => UnmodifiableListView(_categories);
 
   void createCategory(String name, Color color, IconData icon) async {
     Category c = Category(name: name, color: color, icon: icon, sp: this);
-    c.id = await DBManager.instance.createCategory(c);
     _categories.add(c);
     notifyListeners();
   }
@@ -60,5 +64,11 @@ class Tasks extends ChangeNotifier {
   void deleteCurrentCategory() {
     _categories.removeAt(_currentCategory);
     notifyListeners();
+  }
+
+  @override
+  void notifyListeners() {
+    super.notifyListeners();
+    SaveLoad.instance.save();
   }
 }
